@@ -1,4 +1,4 @@
-package day1
+package fuel
 
 func Calculate(mass int) (int, error) {
 	r := mass /3 - 2 
