@@ -27,10 +27,8 @@ func main() {
 
 	}
 	
-	Reset(codes)
-	Excute(codes)
-
-	fmt.Printf("position 0 is %d \n", codes[0])
+	noun, verb := Tryfind(19690720, codes)
+	fmt.Printf("part2 anwser is %d \n", noun * 100 + verb)
 
 
 }
