@@ -27,7 +27,7 @@ func main() {
 
 	}
 	
-	Reset(codes, 12, 2)
+	Reset(codes)
 	Excute(codes)
 
 	fmt.Printf("position 0 is %d \n", codes[0])

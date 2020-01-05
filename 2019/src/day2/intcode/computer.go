@@ -1,7 +1,7 @@
 package intcode 
-func Reset(codes []int) ([]int ,error) {
-	codes[1] = 12
-	codes[2] = 2
+func Reset(codes []int, noun int, verb int) ([]int ,error) {
+	codes[1] = noun
+	codes[2] = verb
 	return codes, nil
 }
 

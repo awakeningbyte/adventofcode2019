@@ -8,7 +8,7 @@ import (
 
 func TestReset(t *testing.T) {
 	codes := []int{15,20, 22}
-	codes,err := Reset(codes)
+	codes,err := Reset(codes, 12, 2)
 	if err != nil || codes[1] != 12 || codes[2] !=2 {
 		t.Errorf("reset codes failed %v", codes)
 	}
