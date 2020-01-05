@@ -20,11 +20,27 @@ var calculationTests = []calculationCase {
 	{1969, 654, nil },
 	{100756, 33583, nil },
 }
+var calculationTests2 = []calculationCase {
+	{14,2, nil},
+	{1969,966, nil},
+	{100756,50346,nil},
+}
 func TestCalculate(t *testing.T) {
 	for _, test := range calculationTests {
 		n, _:= Calculate(test.mass)
 		if (n != test.fuel) {
 			t.Errorf("Calculation result is incorrect. expected %d, actual %d", test.fuel, n)
+		}
+
+	}
+
+}
+
+func TestCalculate2(t *testing.T) {
+	for _, test := range calculationTests2 {
+		n, _:= Calculate2(test.mass)
+		if (n != test.fuel) {
+			t.Errorf("Calculation2 result is incorrect. expected %d, actual %d", test.fuel, n)
 		}
 
 	}

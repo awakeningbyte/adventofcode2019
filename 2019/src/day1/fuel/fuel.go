@@ -9,3 +9,15 @@ func Calculate(mass int) (int, error) {
 	return r, nil;
 }
 
+func Calculate2(mass int) (int, error) {
+	f :=0
+	r,err := Calculate(mass)
+	for r >0 && err == nil {
+		f += r
+		r, err =Calculate(r)
+	}
+
+
+	return f, nil
+}
+
