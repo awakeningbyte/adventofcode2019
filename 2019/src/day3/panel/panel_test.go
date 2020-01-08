@@ -35,6 +35,7 @@ var lineParsingTestCases = []LineParsingTestCase {
     {Point {5, 2}, "U2", []Point{Point{5,3}, Point{5,4}}},
 }
 
+
 func TestPointsDistanceCalculation(t *testing.T) {
     for _, test := range distanceTestCases {
         d := test.From.Distance(test.To)
@@ -49,6 +50,35 @@ func TestLineParsing(t *testing.T) {
         points := test.start.Go(test.line)
         if !reflect.DeepEqual(points, test.points) {
             t.Errorf("Parsing line returns incorrect result. From %v go %s, expect %v, got %v", test.start, test.line, test.points, points)
+        }
+    }
+}
+
+type CrosedPointTestCase struct {
+    panel []Point
+    toAdd Point
+    cross bool
+}
+
+var crosedPointTestCases = []CrosedPointTestCase {
+    { []Point{Point{0,0}, Point{0,1}, Point{1,1}}, Point{0,0}, true},
+    { []Point{Point{0,0}, Point{0,1}, Point{1,1}}, Point{0,1}, true},
+    { []Point{Point{0,0}, Point{0,1}, Point{1,1}}, Point{1,1}, true},
+    { []Point{}, Point{0,1}, false},
+    { []Point{Point{1,1}}, Point{0,1}, false},
+}
+
+func TestAddPointToPanel(t *testing.T) {
+    for _,test := range crosedPointTestCases {
+        var panel Panel
+        panel = *panel.Create()
+        for _, p := range test.panel {
+            panel.Add(p)
+        }
+        
+        f := panel.Add(test.toAdd)
+        if f != test.cross {
+            t.Errorf("add func for panel %v of point %v return wrong result, expect %v, got %v", test.panel, test.toAdd, test.cross, f)
         }
     }
 }

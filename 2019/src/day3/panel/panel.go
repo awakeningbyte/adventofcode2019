@@ -14,7 +14,6 @@ func (p Point) Distance(o Point) int {
 }
 
 func (p Point) Go(line string) []Point {
-    fmt.Printf("input line %s \n", line)
     n, _:= strconv.Atoi(line[1:])
     r := make([]Point,n,n)
 
@@ -43,6 +42,23 @@ func (p Point) Go(line string) []Point {
     }
 
     return  r
+}
+
+type Panel map[string]Point 
+
+func (p Panel) Create() *Panel {
+    var n Panel =make(map[string]Point)
+    return &n
+}
+
+func (p Panel) Add(pt Point) bool {
+    key := fmt.Sprint("X", pt.X, "Y", pt.Y)
+    _, ok :=  p[key]
+    if ok {
+        return true
+    }
+    p[key] = pt
+    return false
 }
 
 func abs(v int) int {
