@@ -67,10 +67,10 @@ func (p Panel) GetPoints() []Point {
 	return points
 }
 
-func (p Panel) Exist(pt Point) bool {
+func (p Panel) Exist(pt Point) (Point, bool) {
 	key := GetKey(pt) 
-	_, ok := p[key]
-	return ok
+    o, f := p[key]
+    return o, f
 }
 func NewPanelFrom(input string) *Panel {
   regx,_ := regexp.Compile("[L|R|U|D]([0-9]+)")
@@ -116,7 +116,8 @@ func Run(wires string) int {
 	for _, l := range regx.FindAllString(lines[1], -1){
 		points := start.Go(l)
 		for _, p := range points {
-			if panel.Exist(p) == true {
+            _, f :=panel.Exist(p)
+			if f==true {
 				d := p.Distance(Point{0,0,0})
 				if found.pt == nil || d < found.dist {
 					found = CrossPoint{&p, d}
@@ -127,4 +128,27 @@ func Run(wires string) int {
 	}
 	return found.dist
 }
+
+func Run2(wires string) int {
+	found := CrossPoint{}
+	lines := strings.Split(wires, "\n")
+	panel := NewPanelFrom(lines[0])
+	start := Point{0,0,0}
+    regx,_ := regexp.Compile("[L|R|U|D]([0-9]+)")
+	for _, l := range regx.FindAllString(lines[1], -1){
+		points := start.Go(l)
+		for _, p := range points {
+            o, f:= panel.Exist(p)
+			if f == true {
+				d := p.Steps + o.Steps
+				if found.pt == nil || d < found.dist {
+					found = CrossPoint{&p, d}
+				}
+			}
+		}
+		start = points[len(points)-1]
+	}
+	return found.dist
+}
+
 

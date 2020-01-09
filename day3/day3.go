@@ -18,6 +18,7 @@ func main() {
         fmt.Errorf("can not open input file %s", os.Args[1])
     }
 
-    result := Run(string(text))
-    fmt.Printf("closest cross point is %v\n", result)
+    part1 := Run(string(text))
+    part2 := Run2(string(text))
+    fmt.Printf("closest cross point is part1: %v, part2: %v\n", part1, part2)
 }
