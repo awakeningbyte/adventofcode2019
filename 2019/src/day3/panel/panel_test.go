@@ -67,6 +67,16 @@ var pointExistenceTestCases = []PointExistenceTestCase {
 	{"R2,U2,L2,D1" ,Point{0,1}, true},
 	{"R2,U2,L2,D1,L3,D1\n", Point{-3,0}, true},
 	{"R2,U2,L2,D1", Point{3,0}, false},
+    {"R75,D30", Point{75,-30}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{75,0}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{75,-30}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{158,-30}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{158,53}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{146,53}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{146,4}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{217,4}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{217,11}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{145,11}, true},
 }
 
 func TestPointExist(t *testing.T) {	
@@ -75,7 +85,7 @@ func TestPointExist(t *testing.T) {
 		actual := panel.Exist(test.point)
 
 		if actual!= test.exist {
-			t.Errorf("point %v existence in %v should be %v but got %v", test.point,panel.GetPoints(), test.exist, actual)
+			t.Errorf("point %v existence in %v should be %v but got %v\n\n", test.point,panel.GetPoints(), test.exist, actual)
 		}
 	}
 }

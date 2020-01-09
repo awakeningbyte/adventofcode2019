@@ -68,7 +68,7 @@ func (p Panel) Exist(pt Point) bool {
 	return ok
 }
 func NewPanelFrom(input string) *Panel {
-  regx,_ := regexp.Compile("[L|R|U|D]([1-9]+)")
+  regx,_ := regexp.Compile("[L|R|U|D]([0-9]+)")
 	lines := regx.FindAllString(input, -1)
 	var panel Panel= make(map[string]Point)
 	start := Point{0,0}
@@ -104,7 +104,7 @@ func Run(wires string) int {
 	lines := strings.Split(wires, "\n")
 	panel := NewPanelFrom(lines[0])
 	start := Point{0,0}
-  regx,_ := regexp.Compile("[L|R|U|D]([1-9]+)")
+  regx,_ := regexp.Compile("[L|R|U|D]([0-9]+)")
 	for _, l := range regx.FindAllString(lines[1], -1){
 		points := start.Go(l)
 		for _, p := range points {
