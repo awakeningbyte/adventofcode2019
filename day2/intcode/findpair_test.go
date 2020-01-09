@@ -2,7 +2,7 @@ package intcode_test
 
 import (
 	"testing"
-	. "day2/intcode"
+	. "adventofcode2019/day2/intcode"
 )
 
 type findpairCase struct {

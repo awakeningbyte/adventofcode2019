@@ -1,7 +1,7 @@
 package panel_test
 
 import (
-    . "day3/panel"
+    . "adventofcode2019/day3/panel"
     "reflect"
     "testing"
 		"sort"

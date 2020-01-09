@@ -1,7 +1,7 @@
 package main
 
 import (
-    . "day3/panel"
+    . "adventofcode2019/day3/panel"
     "io/ioutil"
     "os"
     "fmt"

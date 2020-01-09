@@ -5,7 +5,7 @@ import (
 	"os"
 	"fmt"
 	"strconv"
-	. "day1/fuel"
+	. "adventofcode2019/day1/fuel"
 )
 
 func main() {

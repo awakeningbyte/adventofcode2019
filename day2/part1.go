@@ -4,7 +4,7 @@ import (
 	"os"
 	"fmt"
 	"io/ioutil"
-	. "day2/intcode"
+	. "adventofcode2019/day2/intcode"
 	"strconv"
 	"strings"
 )
@@ -27,8 +27,10 @@ func main() {
 
 	}
 	
-	noun, verb := Tryfind(19690720, codes)
-	fmt.Printf("part2 anwser is %d \n", noun * 100 + verb)
+	Reset(codes, 12, 2)
+	Excute(codes)
+
+	fmt.Printf("position 0 is %d \n", codes[0])
 
 
 }

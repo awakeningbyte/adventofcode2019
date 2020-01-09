@@ -3,7 +3,7 @@ package intcode_test
 import (
 	"testing"
 	"reflect"
-	. "day2/intcode"
+	. "adventofcode2019/day2/intcode"
 )
 
 func TestReset(t *testing.T) {

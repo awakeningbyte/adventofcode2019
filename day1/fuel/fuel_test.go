@@ -1,7 +1,7 @@
 package fuel_test 
 
 import (
-	. "day1/fuel"
+	. "adventofcode2019/day1/fuel"
 	"testing"
 )
 type calculationCase struct {
