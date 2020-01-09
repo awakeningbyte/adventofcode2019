@@ -4,7 +4,6 @@ import (
     . "adventofcode2019/day3/panel"
     "reflect"
     "testing"
-		"sort"
 )
 
 type PointsDistanceTestCase struct {
@@ -14,10 +13,10 @@ type PointsDistanceTestCase struct {
 }
 
 var distanceTestCases = []PointsDistanceTestCase{
-    { Point {0, 0 }, Point {0, 0 }, 0},
-    { Point {0, 1 }, Point {1, 0 }, 2},
-    { Point {1, 1 }, Point {0, 0 }, 2},
-    { Point {4, 3 }, Point {1, 10 }, 10},
+    { Point {0, 0,0 }, Point {0, 0 ,0 }, 0},
+    { Point {0, 1 ,0 }, Point {1, 0 ,0 }, 2},
+    { Point {1, 1 ,0 }, Point {0, 0 ,0 }, 2},
+    { Point {4, 3 ,0 }, Point {1, 10 ,0 }, 10},
 }
 
 type LineParsingTestCase struct {
@@ -27,13 +26,13 @@ type LineParsingTestCase struct {
 }
 
 var lineParsingTestCases = []LineParsingTestCase {
-    {Point {0, 0}, "R2", []Point{Point{1,0}, Point{2,0}}},
-    {Point {0, 0}, "U1", []Point{Point{0,1}}},
-    {Point {0, 1}, "D1", []Point{Point{0,0}}},
-    {Point {2, 2}, "L1", []Point{Point{1,2}}},
-    {Point {5, 5}, "R3", []Point{Point{6,5}, Point{7,5}, Point{8,5}}},
-    {Point {2, 2}, "L1", []Point{Point{1,2}}},
-    {Point {5, 2}, "U2", []Point{Point{5,3}, Point{5,4}}},
+    {Point {0, 0,0 }, "R2", []Point{Point{1,0,1}, Point{2,0,2}}},
+    {Point {0, 0,1 }, "U1", []Point{Point{0,1,2}}},
+    {Point {0, 1,0 }, "D1", []Point{Point{0,0,1}}},
+    {Point {2, 2,2 }, "L1", []Point{Point{1,2,3}}},
+    {Point {5, 5,5 }, "R3", []Point{Point{6,5,6}, Point{7,5,7}, Point{8,5,8}}},
+    {Point {2, 2,2 }, "L1", []Point{Point{1,2,3}}},
+    {Point {5, 2,2 }, "U2", []Point{Point{5,3,3}, Point{5,4,4}}},
 }
 
 
@@ -62,21 +61,21 @@ type PointExistenceTestCase struct {
 }
 
 var pointExistenceTestCases = []PointExistenceTestCase {
-	{"R2,U2,L2,D1", Point{2,2}, true},
-	{"R2,U2,L2,D1", Point{3,0}, false},
-	{"R2,U2,L2,D1" ,Point{0,1}, true},
-	{"R2,U2,L2,D1,L3,D1\n", Point{-3,0}, true},
-	{"R2,U2,L2,D1", Point{3,0}, false},
-    {"R75,D30", Point{75,-30}, true},
-    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{75,0}, true},
-    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{75,-30}, true},
-    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{158,-30}, true},
-    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{158,53}, true},
-    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{146,53}, true},
-    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{146,4}, true},
-    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{217,4}, true},
-    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{217,11}, true},
-    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{145,11}, true},
+	{"R2,U2,L2,D1", Point{2,2,4}, true},
+	{"R2,U2,L2,D1", Point{3,0, 7}, false},
+	{"R2,U2,L2,D1" ,Point{0,1,1}, true},
+	{"R2,U2,L2,D1,L3,D1\n", Point{-3,0,0}, true},
+	{"R2,U2,L2,D1", Point{3,0,0}, false},
+    {"R75,D30", Point{75,-30,0}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{75,0,0}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{75,-30,0}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{158,-30,0}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{158,53,0}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{146,53, 0}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{146,4, 0}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{217,4, 0}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{217,11, 0}, true},
+    {"R75,D30,R83,U83,L12,D49,R71,U7,L72\n", Point{145,11, 0}, true},
 }
 
 func TestPointExist(t *testing.T) {	
@@ -92,12 +91,9 @@ func TestPointExist(t *testing.T) {
 
 func TestPanelConstruction(t *testing.T) {
 	panel:=NewPanelFrom("R2,U2,L2,D1")
-	expected := []Point{ Point{1,0}, Point{2,0}, Point{2,1}, Point{2,2}, Point{1,2}, Point{0,2}, Point{0,1}}
+	expected := []Point{ Point{1,0,1}, Point{2,0,2}, Point{2,1,3}, Point{2,2,4}, Point{1,2,5}, Point{0,2,6}, Point{0,1,7}}
 	actual := panel.GetPoints()
 
-	sort.SliceStable(expected, func(i, j int) bool {
-		return GetKey(expected[i]) < GetKey(expected[j])
-	})
 	if !reflect.DeepEqual(expected, actual) {
 		t.Errorf("panel construction wrong, expected %v, got %v", expected, actual)
 	}

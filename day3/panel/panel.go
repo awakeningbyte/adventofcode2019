@@ -10,6 +10,7 @@ import (
 type Point struct {
     X int
     Y int
+    Steps int
 }
 
 func (p Point) Distance(o Point) int {
@@ -19,25 +20,29 @@ func (p Point) Distance(o Point) int {
 func (p Point) Go(line string) []Point {
     n, _:= strconv.Atoi(line[1:])
     r := make([]Point,n,n)
-
+    steps := p.Steps
     switch d :=line[:1]; d {
         case "L":
             for  j:=0; j<n; j++ {
-                r[j]= Point{p.X - j -1, p.Y}
+                steps +=1
+                r[j]= Point{p.X - j -1, p.Y, steps}
             }
 
         case "R":
             for  j:=0; j<n; j++ {
-               r[j]= Point{p.X + j + 1, p.Y}
+               steps +=1
+               r[j]= Point{p.X + j + 1, p.Y, steps}
             }
 
         case "U":
             for  j:=0; j<n; j++ {
-               r[j]= Point{p.X , p.Y + j + 1}
+               steps +=1
+               r[j]= Point{p.X , p.Y + j + 1, steps}
             }
         case "D":
             for  j:=0; j<n; j++ {
-               r[j]= Point{p.X , p.Y - j -1}
+               steps +=1
+               r[j]= Point{p.X , p.Y - j -1, steps}
            }
         default:
             panic("wrong line value")
@@ -56,7 +61,7 @@ func (p Panel) GetPoints() []Point {
 	}
 
 	sort.SliceStable(points, func(i, j int) bool {
-		return GetKey(points[i]) < GetKey(points[j])
+		return points[i].Steps < points[j].Steps
 
 	})
 	return points
@@ -71,12 +76,15 @@ func NewPanelFrom(input string) *Panel {
   regx,_ := regexp.Compile("[L|R|U|D]([0-9]+)")
 	lines := regx.FindAllString(input, -1)
 	var panel Panel= make(map[string]Point)
-	start := Point{0,0}
+	start := Point{0,0, 0}
 	for _,l := range lines {
 		points := start.Go(l)
 		for _, p := range points {
 			key := GetKey(p)
-			panel[key]=p
+            _, ok := panel[key]
+            if !ok {
+			    panel[key]=p
+            }
 		}
 		start = points[len(points)-1]
 	}
@@ -103,13 +111,13 @@ func Run(wires string) int {
 	found := CrossPoint{}
 	lines := strings.Split(wires, "\n")
 	panel := NewPanelFrom(lines[0])
-	start := Point{0,0}
+	start := Point{0,0,0}
   regx,_ := regexp.Compile("[L|R|U|D]([0-9]+)")
 	for _, l := range regx.FindAllString(lines[1], -1){
 		points := start.Go(l)
 		for _, p := range points {
 			if panel.Exist(p) == true {
-				d := p.Distance(Point{0,0})
+				d := p.Distance(Point{0,0,0})
 				if found.pt == nil || d < found.dist {
 					found = CrossPoint{&p, d}
 				}
