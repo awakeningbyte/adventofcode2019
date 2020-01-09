@@ -3,7 +3,6 @@ import (
     "strconv"
     "fmt"
 		"sort"
-		"regexp"
 )
 
 type Point struct {
@@ -66,9 +65,7 @@ func (p Panel) Exist(pt Point) bool {
 	_, ok := p[key]
 	return ok
 }
-func NewPanelFrom(input string) *Panel {
-  regx,_ := regexp.Compile("[L|R|U|D]([1-9]+)")
-	lines := regx.FindAllString(input, -1)
+func NewPanelFrom(lines []string) *Panel {
 	var panel Panel= make(map[string]Point)
 	start := Point{0,0}
 	for _,l := range lines {

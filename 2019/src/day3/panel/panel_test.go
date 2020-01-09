@@ -4,6 +4,7 @@ import (
     . "day3/panel"
     "reflect"
     "testing"
+		"sort"
 )
 
 type PointsDistanceTestCase struct {
@@ -54,31 +55,41 @@ func TestLineParsing(t *testing.T) {
     }
 }
 
-type CrosedPointTestCase struct {
-    panel []Point
-    toAdd Point
-    cross bool
+type PointExistenceTestCase struct {
+    wires string
+    point Point
+    exist bool
 }
 
-var crosedPointTestCases = []CrosedPointTestCase {
-    { []Point{Point{0,0}, Point{0,1}, Point{1,1}}, Point{0,0}, true},
-    { []Point{Point{0,0}, Point{0,1}, Point{1,1}}, Point{0,1}, true},
-    { []Point{Point{0,0}, Point{0,1}, Point{1,1}}, Point{1,1}, true},
-    { []Point{}, Point{0,1}, false},
-    { []Point{Point{1,1}}, Point{0,1}, false},
+var pointExistenceTestCases = []PointExistenceTestCase {
+	{"R2,U2,L2,D1", Point{2,2}, true},
+	{"R2,U2,L2,D1", Point{3,0}, false},
+	{"R2,U2,L2,D1" ,Point{0,1}, true},
+	{"R2,U2,L2,D1,L3,D1\n", Point{-3,0}, true},
+	{"R2,U2,L2,D1", Point{3,0}, false},
 }
 
-func TestAddPointToPanel(t *testing.T) {
-    for _,test := range crosedPointTestCases {
-        var panel Panel
-        panel = *panel.Create()
-        for _, p := range test.panel {
-            panel.Add(p)
-        }
-        
-        f := panel.Add(test.toAdd)
-        if f != test.cross {
-            t.Errorf("add func for panel %v of point %v return wrong result, expect %v, got %v", test.panel, test.toAdd, test.cross, f)
-        }
-    }
+func TestPointExist(t *testing.T) {	
+	for _, test := range pointExistenceTestCases {
+		panel := NewPanelFrom(test.wires)
+		actual := panel.Exist(test.point)
+
+		if actual!= test.exist {
+			t.Errorf("point %v existence in %v should be %v but got %v", test.point,panel.GetPoints(), test.exist, actual)
+		}
+	}
 }
+
+func TestPanelConstruction(t *testing.T) {
+	panel:=NewPanelFrom("R2,U2,L2,D1")
+	expected := []Point{ Point{1,0}, Point{2,0}, Point{2,1}, Point{2,2}, Point{1,2}, Point{0,2}, Point{0,1}}
+	actual := panel.GetPoints()
+
+	sort.SliceStable(expected, func(i, j int) bool {
+		return GetKey(expected[i]) < GetKey(expected[j])
+	})
+	if !reflect.DeepEqual(expected, actual) {
+		t.Errorf("panel construction wrong, expected %v, got %v", expected, actual)
+	}
+}
+
